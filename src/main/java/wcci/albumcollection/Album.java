@@ -1,5 +1,6 @@
 package wcci.albumcollection;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Entity;
@@ -16,7 +17,7 @@ public class Album {
 
 	@OneToMany(mappedBy = "album")
 	private Collection<Song> songs;
-	
+
 	@ManyToOne
 	private Artist artist;
 
@@ -28,6 +29,7 @@ public class Album {
 		this.albumTitle = albumTitle;
 		this.albumImageUrl = albumImageUrl;
 		this.recordLabel = recordLabel;
+		this.songs = new ArrayList<>();
 	}
 
 	private Album() {
@@ -52,6 +54,18 @@ public class Album {
 
 	public String getRecordLabel() {
 		return recordLabel;
+	}
+
+	public Artist getArtist() {
+		return artist;
+	}
+
+	public void addSong(Song song) {
+		this.songs.add(song);
+	}
+
+	public void addArtist(Artist artist) {
+		this.artist = artist;
 	}
 
 	@Override

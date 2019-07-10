@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping({"/api","/api/"}) //If something breaks, this may be the problem
+@RequestMapping("/api") //If something breaks, this may be the problem
 public class AlbumController {
 	@Autowired
 	AlbumRepository albumRepo;

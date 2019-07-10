@@ -1,5 +1,6 @@
 package wcci.albumcollection;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Entity;
@@ -29,6 +30,7 @@ public class Artist {
 		this.artistAge = artistAge;
 		this.recordLabel = recordLabel;
 		this.hometown = hometown;
+		this.albums = new ArrayList<>();
 	}
 
 	private Artist() {
@@ -61,6 +63,10 @@ public class Artist {
 
 	public String getHometown() {
 		return hometown;
+	}
+	
+	public void addAlbum(Album album) {
+		this.albums.add(album);
 	}
 
 	@Override

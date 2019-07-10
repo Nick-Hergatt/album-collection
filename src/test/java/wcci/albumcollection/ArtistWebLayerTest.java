@@ -19,41 +19,41 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@WebMvcTest(AlbumController.class)
+@WebMvcTest(ArtistController.class)
 @RunWith(SpringRunner.class)
-public class AlbumWebLayerTest {
+public class ArtistWebLayerTest {
+	
 	@Autowired
 	MockMvc mockMvc;
 	
 	@MockBean
-	AlbumRepository albumRepo;
-
-	private Album testAlbum;
-	private ObjectMapper  mapper = new ObjectMapper();
-
+	ArtistRepository artistRepo;
+	
+	private Artist testArtist;
+	private ObjectMapper mapper = new ObjectMapper();
+	
 	@Before
 	public void setup() {
-		testAlbum = new Album("title", "url", "record");
+		testArtist = new Artist("name", "artistImageUrl", "artistAge", "recordLabel", "hometown");
 	}
 	
 	@Test
-	public void fetchCollectionOfAlbums() throws Exception{
-		when(albumRepo.findAll()).thenReturn(Collections.singletonList(testAlbum));
-		mockMvc.perform(get("/api/albums"))
-			.andDo(print())
-			.andExpect(status().isOk())
-			.andExpect(content().contentType("application/json;charset=UTF-8"))
-			.andExpect(content().json(mapper.writeValueAsString(Collections.singletonList(testAlbum)), true));
-	}
-	@Test
-	public void fetchSingleAlbum() throws Exception {
-		when(albumRepo.findById(1L)).thenReturn(Optional.of(testAlbum));
-		mockMvc.perform(get("/api/albums/1"))
+	public void fetchCollectionOfArtists() throws Exception {
+	when(artistRepo.findAll()).thenReturn(Collections.singletonList(testArtist));
+	mockMvc.perform(get("/api/artists"))
 		.andDo(print())
 		.andExpect(status().isOk())
 		.andExpect(content().contentType("application/json;charset=UTF-8"))
-		.andExpect(content().json(mapper.writeValueAsString(testAlbum), true));
-
+		.andExpect(content().json(mapper.writeValueAsString(Collections.singletonList(testArtist)),true));
 	}
-
+	@Test
+	public void fetchSingleArtist() throws Exception {
+		when(artistRepo.findById(1L)).thenReturn(Optional.of(testArtist));
+		mockMvc.perform(get("/api/artists/1"))
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(content().contentType("application/json;charset=UTF-8"))
+		.andExpect(content().json(mapper.writeValueAsString(testArtist),true));
+			}
+	
 }

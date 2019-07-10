@@ -19,41 +19,42 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@WebMvcTest(AlbumController.class)
+@WebMvcTest(SongController.class)
 @RunWith(SpringRunner.class)
-public class AlbumWebLayerTest {
+public class SongWebLayerTest {
+
 	@Autowired
 	MockMvc mockMvc;
-	
-	@MockBean
-	AlbumRepository albumRepo;
 
-	private Album testAlbum;
-	private ObjectMapper  mapper = new ObjectMapper();
+	@MockBean
+	private SongRepository songRepo;
+
+	private Song testSong;
+	private ObjectMapper mapper = new ObjectMapper();
 
 	@Before
-	public void setup() {
-		testAlbum = new Album("title", "url", "record");
+	public void setup() { 
+		testSong = new Song("songTitle", "duration", "linkUrl");
 	}
-	
+
 	@Test
-	public void fetchCollectionOfAlbums() throws Exception{
-		when(albumRepo.findAll()).thenReturn(Collections.singletonList(testAlbum));
-		mockMvc.perform(get("/api/albums"))
+	public void fetchCollectionOfSongs() throws Exception {
+		when(songRepo.findAll()).thenReturn(Collections.singletonList(testSong));
+		mockMvc.perform(get("/api/songs"))
 			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(content().contentType("application/json;charset=UTF-8"))
-			.andExpect(content().json(mapper.writeValueAsString(Collections.singletonList(testAlbum)), true));
+			.andExpect(content().json(mapper.writeValueAsString(Collections.singletonList(testSong)), true));
 	}
+	
 	@Test
-	public void fetchSingleAlbum() throws Exception {
-		when(albumRepo.findById(1L)).thenReturn(Optional.of(testAlbum));
-		mockMvc.perform(get("/api/albums/1"))
+	public void fetchSingleSong() throws Exception {
+		when(songRepo.findById(1L)).thenReturn(Optional.of(testSong));
+		mockMvc.perform(get("/api/songs/1"))
 		.andDo(print())
 		.andExpect(status().isOk())
 		.andExpect(content().contentType("application/json;charset=UTF-8"))
-		.andExpect(content().json(mapper.writeValueAsString(testAlbum), true));
-
+		.andExpect(content().json(mapper.writeValueAsString(testSong),true));
 	}
-
+	
 }

@@ -60,7 +60,7 @@ public class AlbumWebLayerTest {
 	public void addAlbum() throws Exception{
 		Album albumToAdd = new Album("","","");
 		mockMvc.perform(post("/api/add-album").contentType(MediaType.APPLICATION_JSON)
-				.content(toJson(albumToAdd))).andExpect(status().is3xxRedirection());
+				.content(toJson(albumToAdd))).andExpect(status().isOk());
 }
 
 	private String toJson(Album albumToAdd) {

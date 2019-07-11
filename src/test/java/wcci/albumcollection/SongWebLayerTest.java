@@ -62,8 +62,8 @@ public class SongWebLayerTest {
 	@Test
 	public void addSong() throws Exception{
 		Song songToAdd = new Song("","","");
-		mockMvc.perform(post("/api/add-album").contentType(MediaType.APPLICATION_JSON)
-				.content(toJson(albumToAdd))).andExpect(status().isOk());
+		mockMvc.perform(post("/api/add-song").contentType(MediaType.APPLICATION_JSON)
+				.content(toJson(songToAdd))).andExpect(status().isOk());
 }
 		private String toJson(Song songToAdd) {
 			return testSong.getSongTitle();

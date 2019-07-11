@@ -7,19 +7,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api") //If something breaks, this may be the problem
-public class AlbumController {
-	@Autowired
-	AlbumRepository albumRepo;
-	
-	@GetMapping("/albums")
-	public Iterable<Album> sendAlbums(){
-		return albumRepo.findAll();
-	}
-	
-	@GetMapping ("/albums/{id}")
-	public Album sendAlbum(@PathVariable Long id) {
-		return albumRepo.findById(id).get();
-	}
+@RequestMapping("/api")
+public class ArtistController {
 
+	@Autowired
+	ArtistRepository artistRepo;
+	
+	@RequestMapping("/artists")
+	public Iterable<Artist> sendArtists() {
+		return artistRepo.findAll();
+	}
+	@GetMapping("/artists/{id}")
+	public Artist sendArtist(@PathVariable Long id) {
+		return artistRepo.findById(id).get();
+	}
 }

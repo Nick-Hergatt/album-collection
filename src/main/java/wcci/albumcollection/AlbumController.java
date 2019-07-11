@@ -12,7 +12,7 @@ public class AlbumController {
 	@Autowired
 	AlbumRepository albumRepo;
 	
-	@RequestMapping("/albums")
+	@GetMapping("/albums")
 	public Iterable<Album> sendAlbums(){
 		return albumRepo.findAll();
 	}
@@ -22,4 +22,7 @@ public class AlbumController {
 		return albumRepo.findById(id).get();
 	}
 
+	@PostMapping
+	
+//	@PutMapping
 }

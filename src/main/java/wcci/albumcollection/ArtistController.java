@@ -13,7 +13,7 @@ public class ArtistController {
 	@Autowired
 	ArtistRepository artistRepo;
 	
-	@RequestMapping("/artists")
+	@GetMapping("/artists")
 	public Iterable<Artist> sendArtists() {
 		return artistRepo.findAll();
 	}
@@ -21,4 +21,9 @@ public class ArtistController {
 	public Artist sendArtist(@PathVariable Long id) {
 		return artistRepo.findById(id).get();
 	}
+	
+	@PostMapping
+	
+	@PutMapping
+	
 }

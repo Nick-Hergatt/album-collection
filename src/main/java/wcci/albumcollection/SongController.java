@@ -12,7 +12,7 @@ public class SongController {
 	@Autowired
 	SongRepository songRepo;
 	
-	@RequestMapping("/songs")
+	@GetMapping("/songs")
 	public Iterable<Song> sendSongs(){
 		return songRepo.findAll();
 	}
@@ -22,4 +22,7 @@ public class SongController {
 		return songRepo.findById(id).get();
 	}
 
+	@PostMapping
+	
+	@PutMapping
 }

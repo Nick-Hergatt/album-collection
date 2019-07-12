@@ -1,8 +1,11 @@
 package wcci.albumcollection;
 
+import java.util.Collection;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -14,6 +17,9 @@ public class Song {
 	
 	@ManyToOne
 	private Album album;
+	
+	@ManyToMany
+	private Collection <WildTag> wildTags;
 	
 	
 	private String songTitle;

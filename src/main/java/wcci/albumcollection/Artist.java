@@ -6,6 +6,7 @@ import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -16,12 +17,17 @@ public class Artist {
 
 	@OneToMany(mappedBy = "artist")
 	private Collection<Album> albums;
+	
+	@ManyToMany
+	private Collection <WildTag> wildTags;
 
 	private String name;
 	private String artistImageUrl;
 	private String artistAge;
 	private String recordLabel;
 	private String hometown;
+
+	
 
 	public Artist(String name, String artistImageUrl, String artistAge, String recordLabel, String hometown) {
 		super();
@@ -31,6 +37,7 @@ public class Artist {
 		this.recordLabel = recordLabel;
 		this.hometown = hometown;
 		this.albums = new ArrayList<>();
+		this.wildTags = new ArrayList<>();
 	}
 
 	private Artist() {

@@ -18,15 +18,18 @@ public class Album {
 	@GeneratedValue
 	private Long Id;
 
+	@ManyToOne
+	private Artist artist;
+
 	@OneToMany(mappedBy = "album")
 	private Collection<Song> songs;
 
 	@ManyToOne
 	@JsonIgnore
 	private Artist artist;
-	
+
 	@ManyToMany
-	private Collection <WildTag> wildTags;
+	private Collection<WildTag> wildTags;
 
 	private String albumTitle;
 	private String albumImageUrl;
@@ -38,10 +41,10 @@ public class Album {
 		this.recordLabel = recordLabel;
 		this.artist = artist;
 		this.songs = new ArrayList<>();
+		this.wildTags = new ArrayList<>();
 	}
 
 	private Album() {
-
 	}
 
 	public Long getId() {
@@ -68,12 +71,16 @@ public class Album {
 		return artist;
 	}
 
+	public void addArtist(Artist artist) {
+		this.artist = artist;
+	}
+
 	public void addSong(Song song) {
 		this.songs.add(song);
 	}
 
-	public void addArtist(Artist artist) {
-		this.artist = artist;
+	public void addWildTag(WildTag wildTag) {
+		this.wildTags.add(wildTag);
 	}
 
 	@Override

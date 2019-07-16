@@ -9,7 +9,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Collections;
 import java.util.Optional;
 
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,40 +31,39 @@ public class SongWebLayerTest {
 	@MockBean
 	private SongRepository songRepo;
 
+	private Album album;
 	private Song testSong;
 	private ObjectMapper mapper = new ObjectMapper();
 
 	@Before
-	public void setup() { 
-		testSong = new Song("songTitle", "duration", "linkUrl");
+	public void setup() {
+		testSong = new Song("songTitle", "duration", "linkUrl", album);
 	}
 
 	@Test
 	public void fetchCollectionOfSongs() throws Exception {
 		when(songRepo.findAll()).thenReturn(Collections.singletonList(testSong));
-		mockMvc.perform(get("/api/songs"))
-			.andDo(print())
-			.andExpect(status().isOk())
-			.andExpect(content().contentType("application/json;charset=UTF-8"))
-			.andExpect(content().json(mapper.writeValueAsString(Collections.singletonList(testSong)), true));
+		mockMvc.perform(get("/api/songs")).andDo(print()).andExpect(status().isOk())
+				.andExpect(content().contentType("application/json;charset=UTF-8"))
+				.andExpect(content().json(mapper.writeValueAsString(Collections.singletonList(testSong)), true));
 	}
-	
+
 	@Test
 	public void fetchSingleSong() throws Exception {
 		when(songRepo.findById(1L)).thenReturn(Optional.of(testSong));
-		mockMvc.perform(get("/api/songs/1"))
-		.andDo(print())
-		.andExpect(status().isOk())
-		.andExpect(content().contentType("application/json;charset=UTF-8"))
-		.andExpect(content().json(mapper.writeValueAsString(testSong),true));
+		mockMvc.perform(get("/api/songs/1")).andDo(print()).andExpect(status().isOk())
+				.andExpect(content().contentType("application/json;charset=UTF-8"))
+				.andExpect(content().json(mapper.writeValueAsString(testSong), true));
 	}
+
 	@Test
-	public void addSong() throws Exception{
-		Song songToAdd = new Song("","","");
-		mockMvc.perform(post("/api/add-song").contentType(MediaType.APPLICATION_JSON)
-				.content(toJson(songToAdd))).andExpect(status().isOk());
-}
-		private String toJson(Song songToAdd) {
-			return testSong.getSongTitle();
-		}
+	public void addSong() throws Exception {
+		Song songToAdd = new Song("", "", "", album);
+		mockMvc.perform(post("/api/add-song").contentType(MediaType.APPLICATION_JSON).content(toJson(songToAdd)))
+				.andExpect(status().isOk());
+	}
+
+	private String toJson(Song songToAdd) {
+		return testSong.getSongTitle();
+	}
 }

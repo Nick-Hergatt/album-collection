@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AlbumController {
 	@Autowired
 	private AlbumRepository albumRepo;
+	private Artist artist;
 	
 	@GetMapping("/albums")
 	public Iterable<Album> sendAlbums(){
@@ -26,7 +27,7 @@ public class AlbumController {
 
 	@PostMapping ("/add-album")
 	public Album addAlbum(String title, String albumImageUrl, String recordLabel) {
-		Album albumToAdd = new Album(title, albumImageUrl, recordLabel);
+		Album albumToAdd = new Album(title, albumImageUrl, recordLabel, artist);
 		if (albumRepo.findByAlbumTitle(albumToAdd.getAlbumTitle())==null) {
 			albumRepo.save(albumToAdd);
 		}

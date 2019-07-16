@@ -10,6 +10,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Album {
 	@Id
@@ -20,6 +22,7 @@ public class Album {
 	private Collection<Song> songs;
 
 	@ManyToOne
+	@JsonIgnore
 	private Artist artist;
 	
 	@ManyToMany
@@ -29,10 +32,11 @@ public class Album {
 	private String albumImageUrl;
 	private String recordLabel;
 
-	public Album(String albumTitle, String albumImageUrl, String recordLabel) {
+	public Album(String albumTitle, String albumImageUrl, String recordLabel, Artist artist) {
 		this.albumTitle = albumTitle;
 		this.albumImageUrl = albumImageUrl;
 		this.recordLabel = recordLabel;
+		this.artist = artist;
 		this.songs = new ArrayList<>();
 	}
 

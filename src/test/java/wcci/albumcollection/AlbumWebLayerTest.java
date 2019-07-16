@@ -26,42 +26,41 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class AlbumWebLayerTest {
 	@Autowired
 	MockMvc mockMvc;
-	
+
 	@MockBean
 	AlbumRepository albumRepo;
 
+	private Artist artist;
 	private Album testAlbum;
-	private ObjectMapper  mapper = new ObjectMapper();
+	private ObjectMapper mapper = new ObjectMapper();
 
 	@Before
 	public void setup() {
-		testAlbum = new Album("title", "url", "record");
+		testAlbum = new Album("title", "url", "record", artist);
 	}
-	
+
 	@Test
-	public void fetchCollectionOfAlbums() throws Exception{
+	public void fetchCollectionOfAlbums() throws Exception {
 		when(albumRepo.findAll()).thenReturn(Collections.singletonList(testAlbum));
-		mockMvc.perform(get("/api/albums"))
-			.andDo(print())
-			.andExpect(status().isOk())
-			.andExpect(content().contentType("application/json;charset=UTF-8"))
-			.andExpect(content().json(mapper.writeValueAsString(Collections.singletonList(testAlbum)), true));
+		mockMvc.perform(get("/api/albums")).andDo(print()).andExpect(status().isOk())
+				.andExpect(content().contentType("application/json;charset=UTF-8"))
+				.andExpect(content().json(mapper.writeValueAsString(Collections.singletonList(testAlbum)), true));
 	}
+
 	@Test
 	public void fetchSingleAlbum() throws Exception {
 		when(albumRepo.findById(1L)).thenReturn(Optional.of(testAlbum));
-		mockMvc.perform(get("/api/albums/1"))
-		.andDo(print())
-		.andExpect(status().isOk())
-		.andExpect(content().contentType("application/json;charset=UTF-8"))
-		.andExpect(content().json(mapper.writeValueAsString(testAlbum), true));
+		mockMvc.perform(get("/api/albums/1")).andDo(print()).andExpect(status().isOk())
+				.andExpect(content().contentType("application/json;charset=UTF-8"))
+				.andExpect(content().json(mapper.writeValueAsString(testAlbum), true));
 	}
+
 	@Test
-	public void addAlbum() throws Exception{
-		Album albumToAdd = new Album("","","");
-		mockMvc.perform(post("/api/add-album").contentType(MediaType.APPLICATION_JSON)
-				.content(toJson(albumToAdd))).andExpect(status().isOk());
-}
+	public void addAlbum() throws Exception {
+		Album albumToAdd = new Album("", "", "", artist);
+		mockMvc.perform(post("/api/add-album").contentType(MediaType.APPLICATION_JSON).content(toJson(albumToAdd)))
+				.andExpect(status().isOk());
+	}
 
 	private String toJson(Album albumToAdd) {
 		return testAlbum.getAlbumTitle();

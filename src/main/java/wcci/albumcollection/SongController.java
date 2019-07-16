@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SongController {
 	@Autowired
 	SongRepository songRepo;
+	private Album album;
 	
 	@GetMapping("/songs")
 	public Iterable<Song> sendSongs(){
@@ -25,7 +26,7 @@ public class SongController {
 
 	@PostMapping ("/add-song")
 	public Song addSong (String songTitle, String duration, String linkUrl) {
-		Song songToAdd = new Song (songTitle, duration, linkUrl);
+		Song songToAdd = new Song(songTitle, duration, linkUrl, album);
 		if(songRepo.findBySongTitle(songToAdd.getSongTitle())==null){
 			songRepo.save(songToAdd);
 		}

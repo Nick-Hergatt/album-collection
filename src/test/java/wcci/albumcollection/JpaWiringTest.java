@@ -26,6 +26,9 @@ public class JpaWiringTest {
 	@Autowired
 	private AlbumRepository albumRepo;
 
+	private Artist artist;
+	private Album album;
+
 	@Test
 	public void shouldStartDataJpaTestFramework() {
 
@@ -33,17 +36,18 @@ public class JpaWiringTest {
 
 	@Test
 	public void albumShouldHaveOneArtistAndCollectionOfSongs() {
-		Song testSong = new Song("Bob", "2min", "url");
-		testSong = songRepo.save(testSong);
 		Artist testArtist = new Artist("Lawrence", "URL", "27", "Roc", "Columbus");
 		testArtist = artistRepo.save(testArtist);
-		Album testAlbum = new Album("Damn", "url", "Roc");
+		Album testAlbum = new Album("Damn", "url", "Roc", artist);
 		testAlbum.addArtist(testArtist);
-		testAlbum = albumRepo.save(testAlbum);
+		Song testSong = new Song("Bob", "2min", "url", album);
+		testSong = songRepo.save(testSong);
+	
 		testAlbum.addSong(testSong);
 		testAlbum = albumRepo.save(testAlbum);
 		
-
+//make sure artist exist 1st
+//		reorganize
 
 		entityManager.flush();
 		entityManager.clear();

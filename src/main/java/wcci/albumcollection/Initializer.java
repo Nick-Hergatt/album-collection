@@ -16,6 +16,9 @@ public class Initializer implements CommandLineRunner {
 	@Autowired
 	private SongRepository songRepo;
 	
+	@Autowired
+	private WildTagRepository wildTagRepo;
+	
 	@Override
 	public void run(String... args) throws Exception {
 		
@@ -44,18 +47,65 @@ public class Initializer implements CommandLineRunner {
 	Song purpleRainSong = new Song("Purple Rain", "3:59", "linkUrl");
 	songRepo.save(purpleRainSong);
 	
+	WildTag rap = new WildTag("Rap");
+	wildTagRepo.save(rap);
+	WildTag whiteBoy = new WildTag("White Boy");
+	wildTagRepo.save(whiteBoy);
+	WildTag tagTest = new WildTag("Tag Test");
+	wildTagRepo.save(tagTest);
+	WildTag movie = new WildTag("Movie");
+	wildTagRepo.save(movie);
+	WildTag eighties = new WildTag("80s");
+	wildTagRepo.save(eighties);
+	WildTag molester = new WildTag("Molester");
+	wildTagRepo.save(molester);
+	
 	eminem.addAlbum(eightMile);
 	eminem.addAlbum(eminemShow);
 	eightMile.addSong(loseYourself);
+	eminem.addWildTag(whiteBoy);
+	eminem.addWildTag(tagTest);
+	eightMile.addWildTag(movie);
+	eightMile.addWildTag(rap);
+	eightMile.addWildTag(tagTest);
+	eminemShow.addWildTag(movie);
+	eminemShow.addWildTag(rap);
+	eminemShow.addWildTag(tagTest);
+	loseYourself.addWildTag(rap);
+	loseYourself.addWildTag(movie);
+	loseYourself.addWildTag(tagTest);
+	songRepo.save(loseYourself);
+	albumRepo.save(eightMile);
+	albumRepo.save(eminemShow);
 	artistRepo.save(eminem);
 
 	mj.addAlbum(thriller);
 	thriller.addSong(beatIt);
 	thriller.addSong(billieJean);
+	mj.addWildTag(eighties);
+	mj.addWildTag(tagTest);
+	mj.addWildTag(molester);
+	thriller.addWildTag(eighties);
+	thriller.addWildTag(tagTest);
+	beatIt.addWildTag(tagTest);
+	beatIt.addWildTag(eighties);
+	billieJean.addWildTag(eighties);
+	billieJean.addWildTag(tagTest);
+	songRepo.save(beatIt);
+	songRepo.save(billieJean);
+	albumRepo.save(thriller);
 	artistRepo.save(mj);
 	
 	prince.addAlbum(purpleRain);
 	purpleRain.addSong(purpleRainSong);
+	prince.addWildTag(tagTest);
+	prince.addWildTag(eighties);
+	purpleRain.addWildTag(eighties);
+	purpleRain.addWildTag(tagTest);
+	purpleRainSong.addWildTag(eighties);
+	purpleRainSong.addWildTag(tagTest);
+	songRepo.save(purpleRainSong);
+	albumRepo.save(purpleRain);
 	artistRepo.save(prince);
 	}
 }

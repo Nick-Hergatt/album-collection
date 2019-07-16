@@ -29,22 +29,22 @@ public class Initializer implements CommandLineRunner {
 	Artist prince = new Artist("Prince", "imageUrl", "dead", "Purple", "Paisley Park");
 	artistRepo.save(prince);
 	
-	Album eightMile = new Album("8 Mile", "imageUrl", "Capitol");
+	Album eightMile = new Album("8 Mile", "imageUrl", "Capitol", eminem);
 	albumRepo.save(eightMile);
-	Album eminemShow = new Album("Eminem Show", "imageUrl", "Capitol");
+	Album eminemShow = new Album("Eminem Show", "imageUrl", "Capitol", eminem);
 	albumRepo.save(eminemShow);
-	Album thriller = new Album("Thriller", "imageUrl", "Daddy Jackson");
+	Album thriller = new Album("Thriller", "imageUrl", "Daddy Jackson", mj);
 	albumRepo.save(thriller);
-	Album purpleRain = new Album("Purple Rain", "imageUrl", "Capitol");
+	Album purpleRain = new Album("Purple Rain", "imageUrl", "Capitol", prince);
 	albumRepo.save(purpleRain);
 	
-	Song loseYourself = new Song("Lose Yourself", "4:35", "linkUrl");
+	Song loseYourself = new Song("Lose Yourself", "4:35", "linkUrl", eightMile);
 	songRepo.save(loseYourself);
-	Song beatIt = new Song("beatIt", "3:37", "linkUrl");
+	Song beatIt = new Song("beatIt", "3:37", "linkUrl", thriller);
 	songRepo.save(beatIt);
-	Song billieJean = new Song("Billie Jean", "4:23", "linkUrl");
+	Song billieJean = new Song("Billie Jean", "4:23", "linkUrl", thriller);
 	songRepo.save(billieJean);
-	Song purpleRainSong = new Song("Purple Rain", "3:59", "linkUrl");
+	Song purpleRainSong = new Song("Purple Rain", "3:59", "linkUrl", purpleRain);
 	songRepo.save(purpleRainSong);
 	
 	WildTag rap = new WildTag("Rap");

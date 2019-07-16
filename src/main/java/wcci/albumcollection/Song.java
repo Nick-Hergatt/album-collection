@@ -1,5 +1,6 @@
 package wcci.albumcollection;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Entity;
@@ -31,6 +32,7 @@ public class Song {
 		this.songTitle = songTitle;
 		this.duration = duration;
 		this.linkUrl = linkUrl;
+		this.wildTags = new ArrayList<>();
 	}
 	
 	private Song() {
@@ -48,6 +50,10 @@ public class Song {
 	}
 	public String getLinkUrl() {
 		return linkUrl;
+	}
+	
+	public void addWildTag(WildTag wildTag) {
+		this.wildTags.add(wildTag);
 	}
 
 	@Override

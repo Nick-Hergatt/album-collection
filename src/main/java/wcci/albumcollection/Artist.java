@@ -17,17 +17,15 @@ public class Artist {
 
 	@OneToMany(mappedBy = "artist")
 	private Collection<Album> albums;
-	
+
 	@ManyToMany
-	private Collection <WildTag> wildTags;
+	private Collection<WildTag> wildTags;
 
 	private String name;
 	private String artistImageUrl;
 	private String artistAge;
 	private String recordLabel;
 	private String hometown;
-
-	
 
 	public Artist(String name, String artistImageUrl, String artistAge, String recordLabel, String hometown) {
 		super();
@@ -71,9 +69,13 @@ public class Artist {
 	public String getHometown() {
 		return hometown;
 	}
-	
+
 	public void addAlbum(Album album) {
 		this.albums.add(album);
+	}
+
+	public void addWildTag(WildTag wildTag) {
+		this.wildTags.add(wildTag);
 	}
 
 	@Override

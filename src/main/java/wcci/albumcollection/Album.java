@@ -6,6 +6,7 @@ import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -20,6 +21,9 @@ public class Album {
 
 	@ManyToOne
 	private Artist artist;
+	
+	@ManyToMany
+	private Collection <WildTag> wildTags;
 
 	private String albumTitle;
 	private String albumImageUrl;

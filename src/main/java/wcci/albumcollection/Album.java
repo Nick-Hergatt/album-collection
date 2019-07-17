@@ -18,8 +18,6 @@ public class Album {
 	@GeneratedValue
 	private Long Id;
 
-	@ManyToOne
-	private Artist artist;
 
 	@OneToMany(mappedBy = "album")
 	private Collection<Song> songs;

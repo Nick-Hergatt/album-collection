@@ -2,6 +2,14 @@ export default function() {
   return new html();
 }
 class html {
+  addAttribute(attributeToSet, attributeValue){
+    this.element.setAttribute(attributeToSet, attributeValue);
+
+    return this;
+  }
+
+
+
   create(element) {
     this.element = document.createElement(element);
     return this;

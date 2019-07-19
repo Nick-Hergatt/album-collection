@@ -11,7 +11,7 @@ describe("html", () => {
       const underTest = html().create("a");
       underTest.addAttribute("href", "test.com");
 
-      expect(underTest.render().attributes.contains("href", "test.com"));
+      expect(underTest.render().getAttribute("href", "test.com")).toBeTruthy();
     });
   });
   describe("addClass", () => {

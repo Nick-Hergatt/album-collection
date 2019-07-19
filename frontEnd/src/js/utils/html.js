@@ -6,6 +6,15 @@ class html {
     this.element = document.createElement(element);
     return this;
   }
+addChild(elementToAdd){
+  
+  if (elementToAdd.render() instanceof HTMLUnknownElement){
+    throw new Error("Invalid HTML tag")
+  }
+  this.element.append(elementToAdd.render())
+  return this;
+}
+
 
   addClass(classToAdd) {
     if (this.element.classList.contains(classToAdd)) {

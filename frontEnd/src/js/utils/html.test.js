@@ -51,6 +51,20 @@ describe("html", () => {
           "Invalid HTML tag"
         );
       });
+      describe("text", () => {
+        test("Argument sets value", () => {
+          const underTest = html().create("section");
+          underTest.text("test text content");
+
+          expect(underTest.text()).toBe("test text content");
+        });
+      });
+      test("Return current value", () => {
+        const underTest = html().create("section");
+        underTest.render().textContent = "test text content";
+
+        expect(underTest.text()).toBe("test text content");
+      });
     });
   });
 });

@@ -41,7 +41,17 @@ class html {
   render() {
     return this.element;
   }
+  select(query) {
+    const selection = this.querySelectorAll(query);
 
+    if (selection.length === 1) {
+      this.element = selection[0];
+    } else {
+      this.element = selection;
+    }
+
+    return this;
+  }
   text(textToAdd) {
     if (textToAdd === undefined) {
       return this.element.textContent;

@@ -66,5 +66,15 @@ describe("html", () => {
         expect(underTest.text()).toBe("test text content");
       });
     });
-  });
+ describe("click",() =>{
+   test("Should add eventListner",()=>{
+     const underTest=html().create("a")
+     underTest.addAttribute("href","")
+     .text("click here!")
+    .click(event)
+    expect(underTest.eventListner.toBe("click"))   
+    });
+ });
+
+  });g
 });

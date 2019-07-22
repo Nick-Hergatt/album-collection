@@ -1,4 +1,4 @@
-export default function () {
+export default function() {
   return new html();
 }
 class html {
@@ -7,22 +7,21 @@ class html {
 
     return this;
   }
-
-
-
+  click(callback) {
+    this.element.addEventListener("click", callback);
+    return this;
+  }
   create(element) {
     this.element = document.createElement(element);
     return this;
   }
   addChild(elementToAdd) {
-
     if (elementToAdd.render() instanceof HTMLUnknownElement) {
-      throw new Error("Invalid HTML tag")
+      throw new Error("Invalid HTML tag");
     }
-    this.element.append(elementToAdd.render())
+    this.element.append(elementToAdd.render());
     return this;
   }
-
 
   addClass(classToAdd) {
     if (this.element.classList.contains(classToAdd)) {

@@ -87,12 +87,17 @@ class Components {
                 .create("a")
                 .addAttribute("href", "/${requestedData}/${item.id}")
                 .text(elementName)
-            );
+                .click((event) => {
+                  event.preventDefault()
 
+                  const endpoint = event.target.getAttribute('href')
+                  Api().getRequest(`http://localhost:8080/api${endpoint}`, (data) => {
+                    this.renderPageSingle(data, endpoint)
+                  })
+                }));
           contentBlockList.addChild(contentBlockListItem);
         });
-      }
-    );
+      });
     contentBlock.addChild(contentBlockTitle);
     contentBlock.addChild(contentBlockList);
     return contentBlock;

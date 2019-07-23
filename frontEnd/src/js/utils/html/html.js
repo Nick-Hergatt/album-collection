@@ -31,6 +31,14 @@ class html {
     return this;
   }
 
+  addHtml(contentToAdd){
+    if(contentToAdd === undefined){
+      return this.elements.innerHTML;
+    }
+    this.element.innerHTML = contentToAdd;
+    return this;
+  }
+
   isClassQuery(query) {
     return query.startsWith(".");
   }

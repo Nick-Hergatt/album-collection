@@ -55,5 +55,4 @@ public class JpaWiringTest {
 		Album retrievedAlbum = albumRepo.findById(testAlbum.getId()).get();
 		assertThat(retrievedAlbum.getArtist(), is(testArtist));
 	}
-
 }

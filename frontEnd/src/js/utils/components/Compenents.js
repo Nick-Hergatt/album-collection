@@ -87,8 +87,18 @@ class Components {
                 .create("a")
                 .addAttribute("href", "/${requestedData}/${item.id}")
                 .text(elementName)
-            );
+                .click(event => {
+                  event.preventDefault();
 
+                  const endpoint = event.target.getAttribute("href");
+                  Api().getRequest(
+                    `http://localhost:8080/api${endpoint}`,
+                    data => {
+                      this.renderPageSingle(data, endpoint);
+                    }
+                  );
+                })
+            );
           contentBlockList.addChild(contentBlockListItem);
         });
       }
@@ -109,12 +119,46 @@ class Components {
     mainContent.addChild(containerDiv);
     return mainContent;
   }
+  renderPageArtist(data) {
+    const currentMainContentContainerContentBlock = this.getWrapperDiv()
+      .select(".main-content")
+      .select(".container")
+      .select(".content-block");
+    const artistName = html()
+      .create("h3")
+      .addClass("content-block__title")
+      .text(data.name);
+    currentMainContentContainerContentBlock.replace(artistName);
+  }
   renderPageArtists() {
     const currentMainContentContainer = this.getWrapperDiv()
       .select(".main-content")
       .select(".container");
     currentMainContentContainer.replace(this.renderContentBlock("artists"));
   }
+renderPageAlbum(data){
+const currentMainContentContainerContentBlock=this.getWrapperDiv().select('.main-content').select('.container')
+.select('.content-block');
+const albumTitle = html().create('h3').addClass('content-block__title').text(data.title);
+const albumArtist = html().create('ul').addClass('artist');
+data.artist.forEach(artist=>{
+  const artistElement =html()
+  .create('li')
+  .addChild(html()
+  .create('a')
+  .addAttribute('href',`/artists/${artist.id}`)
+  .text(artist.name)
+  .click((event)=>{
+    event.preventDefault()
+const endpoint=event.target.getAttribute('href')
+Api().getRequest(`http://localhost:8080/api${endpoint}`, (data)=>{
+  this.renderPageSingle(data, endpoint)
+})
+  }))
+albumArtist.addChild(artistElement);
+});
+//add code here albumSong
+}
   renderPageAlbums() {
     const currentMainContentContainer = this.getWrapperDiv()
       .select(".main-content")

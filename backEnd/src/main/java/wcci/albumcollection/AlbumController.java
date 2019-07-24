@@ -2,10 +2,10 @@ package wcci.albumcollection;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,11 +17,13 @@ public class AlbumController {
 	private Artist artist;
 	
 	@GetMapping("/albums")
+	@CrossOrigin
 	public Iterable<Album> sendAlbums(){
 		return albumRepo.findAll();
 	}
 	
 	@GetMapping ("/albums/{id}")
+	@CrossOrigin
 	public Album sendAlbum(@PathVariable Long id) {
 		return albumRepo.findById(id).get();
 	}

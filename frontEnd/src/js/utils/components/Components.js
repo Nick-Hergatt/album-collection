@@ -44,6 +44,10 @@ class Components {
             this.renderPageArtists();
           })
       );
+    navList.addChild(navListItemOne);
+    nav.addChild(navList);
+
+    return nav;
   }
   renderMainFooter() {
     const mainFooter = html()
@@ -85,7 +89,7 @@ class Components {
             .addChild(
               html()
                 .create("a")
-                .addAttribute("href", "/${requestedData}/${item.id}")
+                .addAttribute("href", `/${requestedData}/${item.id}`)
                 .text(elementName)
                 .click(event => {
                   event.preventDefault();
@@ -120,24 +124,46 @@ class Components {
     return mainContent;
   }
   renderPageArtist(data) {
-    const currentMainContentContainerContentBlock = this.getWrapperDiv()
+    const currentMainContentContainerContentBlock = this.renderWrapperDiv()
       .select(".main-content")
       .select(".container")
       .select(".content-block");
-    const artistName = html()
-      .create("h3")
-      .addClass("content-block__title")
-      .text(data.name);
-    currentMainContentContainerContentBlock.replace(artistName);
-  }
+      console.log(data);
+      const artistEntry = html().create('div').addClass('artistEntry');
+      const artistName = html()
+        .create("h3")
+        .addClass("content-block__title")
+        .text(data.name);
+      const artistPicture = html()
+        .create('img')
+        .addClass('artistsEntry__image')
+        .addAttribute('src', data.artistImageUrl)
+      const artistAge = html()
+        .create('h4')
+        .text(data.artistAge);
+      const recordLabel = html()
+        .create('h4')
+        .text(data.recordLabel);
+      const hometown = html()
+        .create('h4')
+        .text(data.hometown);
+      artistEntry.addChild(artistName)
+      artistEntry.addChild(artistPicture)
+      artistEntry.addChild(artistAge)
+      artistEntry.addChild(recordLabel)
+      artistEntry.addChild(hometown)
+      console.log(artistEntry);
+      currentMainContentContainerContentBlock.replace(artistEntry);
+    };
+  
   renderPageArtists() {
-    const currentMainContentContainer = this.getWrapperDiv()
+    const currentMainContentContainer = this.renderWrapperDiv()
       .select(".main-content")
       .select(".container");
     currentMainContentContainer.replace(this.renderContentBlock("artists"));
   }
   renderPageAlbum(data) {
-    const currentMainContentContainerContentBlock = this.getWrapperDiv()
+    const currentMainContentContainerContentBlock = this.renderWrapperDiv()
       .select(".main-content")
       .select(".container")
       .select(".content-block");
@@ -207,13 +233,13 @@ class Components {
     currentMainContentContainerContentBlock.addChild(songAdd);
   }
   renderPageAlbums() {
-    const currentMainContentContainer = this.getWrapperDiv()
+    const currentMainContentContainer = this.renderWrapperDiv()
       .select(".main-content")
       .select(".container");
     currentMainContentContainer.replace(this.renderContentBlock("albums"));
   }
   renderPageSong() {
-    const currentMainContentContainerContentBlock = this.getWrapperDiv()
+    const currentMainContentContainerContentBlock = this.renderWrapperDiv()
       .select(".main-content")
       .select(".container")
       .select(".content-block");
@@ -223,21 +249,34 @@ class Components {
       .text(data.songTitle);
   }
   renderPageSongs() {
-    const currentMainContentContainer = this.getWrapperDiv()
+    const currentMainContentContainer = this.renderWrapperDiv()
       .select(".main-content")
       .select(".container");
     currentMainContentContainer.replace(this.renderContentBlock("songs"));
   }
 
+  renderPageSingle(data, endpoint) {
+    const typeOfObject = endpoint.split('/')[1]
+    if (typeOfObject === 'artists') {
+      this.renderPageArtist(data);
+    }
+    if (typeOfObject === 'albums') {
+      this.renderPageAlbum(data);
+    }
+    if (typeOfObject === 'songs') {
+      this.renderPageSong(data);
+    }
+  }
   renderPageHome() {
     const app = this.getAppContext();
-    const wrapperDiv = this.getWrapperDiv();
+    const wrapperDiv = this.renderWrapperDiv();
     const mainHeader = this.renderMainHeader();
-    const mainContent = this.mainContent("artists");
-    const mainFooter = this.mainFooter();
+    const mainContent = this.renderMainContent("artists");
+    const mainFooter = this.renderMainFooter();
     wrapperDiv.addChild(mainHeader);
     wrapperDiv.addChild(mainContent);
     wrapperDiv.addChild(mainFooter);
     app.replace(wrapperDiv);
   }
+
 }

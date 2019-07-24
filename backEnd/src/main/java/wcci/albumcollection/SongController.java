@@ -1,6 +1,7 @@
 package wcci.albumcollection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,11 +16,13 @@ public class SongController {
 	private Album album;
 	
 	@GetMapping("/songs")
+	@CrossOrigin
 	public Iterable<Song> sendSongs(){
 		return songRepo.findAll();
 	}
 	
 	@GetMapping ("/songs/{id}")
+	@CrossOrigin
 	public Song sendSong(@PathVariable Long id) {
 		return songRepo.findById(id).get();
 	}

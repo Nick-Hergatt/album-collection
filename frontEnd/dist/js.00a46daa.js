@@ -206,9 +206,16 @@ function () {
       return this.element;
     }
   }, {
+    key: "replace",
+    value: function replace(element) {
+      this.element.innerHTML = '';
+      this.addChild(element);
+      return this;
+    }
+  }, {
     key: "select",
     value: function select(query) {
-      var selection = this.querySelectorAll(query);
+      var selection = document.querySelectorAll(query);
 
       if (selection.length === 1) {
         this.element = selection[0];
@@ -335,6 +342,9 @@ function () {
 
         _this.renderPageArtists();
       }));
+      navList.addChild(navListItemOne);
+      nav.addChild(navList);
+      return nav;
     }
   }, {
     key: "renderMainFooter",
@@ -364,7 +374,7 @@ function () {
             elementName = item.songTitle;
           }
 
-          var contentBlockListItem = (0, _html.default)().create("li").addClass("content-block__list-item").addChild((0, _html.default)().create("a").addAttribute("href", "/${requestedData}/${item.id}").text(elementName).click(function (event) {
+          var contentBlockListItem = (0, _html.default)().create("li").addClass("content-block__list-item").addChild((0, _html.default)().create("a").addAttribute("href", "/".concat(requestedData, "/").concat(item.id)).text(elementName).click(function (event) {
             event.preventDefault();
             var endpoint = event.target.getAttribute("href");
             (0, _Api.default)().getRequest("http://localhost:8080/api".concat(endpoint), function (data) {
@@ -391,14 +401,26 @@ function () {
   }, {
     key: "renderPageArtist",
     value: function renderPageArtist(data) {
-      var currentMainContentContainerContentBlock = this.getWrapperDiv().select(".main-content").select(".container").select(".content-block");
+      var currentMainContentContainerContentBlock = this.renderWrapperDiv().select(".main-content").select(".container").select(".content-block");
+      console.log(data);
+      var artistEntry = (0, _html.default)().create('div').addClass('artistEntry');
       var artistName = (0, _html.default)().create("h3").addClass("content-block__title").text(data.name);
-      currentMainContentContainerContentBlock.replace(artistName);
+      var artistPicture = (0, _html.default)().create('img').addClass('artistsEntry__image').addAttribute('src', data.artistImageUrl);
+      var artistAge = (0, _html.default)().create('h4').text(data.artistAge);
+      var recordLabel = (0, _html.default)().create('h4').text(data.recordLabel);
+      var hometown = (0, _html.default)().create('h4').text(data.hometown);
+      artistEntry.addChild(artistName);
+      artistEntry.addChild(artistPicture);
+      artistEntry.addChild(artistAge);
+      artistEntry.addChild(recordLabel);
+      artistEntry.addChild(hometown);
+      console.log(artistEntry);
+      currentMainContentContainerContentBlock.replace(artistEntry);
     }
   }, {
     key: "renderPageArtists",
     value: function renderPageArtists() {
-      var currentMainContentContainer = this.getWrapperDiv().select(".main-content").select(".container");
+      var currentMainContentContainer = this.renderWrapperDiv().select(".main-content").select(".container");
       currentMainContentContainer.replace(this.renderContentBlock("artists"));
     }
   }, {
@@ -406,7 +428,7 @@ function () {
     value: function renderPageAlbum(data) {
       var _this3 = this;
 
-      var currentMainContentContainerContentBlock = this.getWrapperDiv().select(".main-content").select(".container").select(".content-block");
+      var currentMainContentContainerContentBlock = this.renderWrapperDiv().select(".main-content").select(".container").select(".content-block");
       var albumTitle = (0, _html.default)().create("h3").addClass("content-block__title").text(data.title);
       var albumArtist = (0, _html.default)().create("ul").addClass("artist");
       var songAdd = (0, _html.default)().create("section").addClass("add-song");
@@ -445,29 +467,46 @@ function () {
   }, {
     key: "renderPageAlbums",
     value: function renderPageAlbums() {
-      var currentMainContentContainer = this.getWrapperDiv().select(".main-content").select(".container");
+      var currentMainContentContainer = this.renderWrapperDiv().select(".main-content").select(".container");
       currentMainContentContainer.replace(this.renderContentBlock("albums"));
     }
   }, {
     key: "renderPageSong",
     value: function renderPageSong() {
-      var currentMainContentContainerContentBlock = this.getWrapperDiv().select(".main-content").select(".container").select(".content-block");
+      var currentMainContentContainerContentBlock = this.renderWrapperDiv().select(".main-content").select(".container").select(".content-block");
       var songTitle = (0, _html.default)().create("h3").addClass("content-block_title").text(data.songTitle);
     }
   }, {
     key: "renderPageSongs",
     value: function renderPageSongs() {
-      var currentMainContentContainer = this.getWrapperDiv().select(".main-content").select(".container");
+      var currentMainContentContainer = this.renderWrapperDiv().select(".main-content").select(".container");
       currentMainContentContainer.replace(this.renderContentBlock("songs"));
+    }
+  }, {
+    key: "renderPageSingle",
+    value: function renderPageSingle(data, endpoint) {
+      var typeOfObject = endpoint.split('/')[1];
+
+      if (typeOfObject === 'artists') {
+        this.renderPageArtist(data);
+      }
+
+      if (typeOfObject === 'albums') {
+        this.renderPageAlbum(data);
+      }
+
+      if (typeOfObject === 'songs') {
+        this.renderPageSong(data);
+      }
     }
   }, {
     key: "renderPageHome",
     value: function renderPageHome() {
       var app = this.getAppContext();
-      var wrapperDiv = this.getWrapperDiv();
+      var wrapperDiv = this.renderWrapperDiv();
       var mainHeader = this.renderMainHeader();
-      var mainContent = this.mainContent("artists");
-      var mainFooter = this.mainFooter();
+      var mainContent = this.renderMainContent("artists");
+      var mainFooter = this.renderMainFooter();
       wrapperDiv.addChild(mainHeader);
       wrapperDiv.addChild(mainContent);
       wrapperDiv.addChild(mainFooter);
@@ -528,7 +567,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58827" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61010" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

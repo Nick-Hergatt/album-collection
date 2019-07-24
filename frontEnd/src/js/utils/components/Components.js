@@ -136,34 +136,91 @@ class Components {
       .select(".container");
     currentMainContentContainer.replace(this.renderContentBlock("artists"));
   }
-renderPageAlbum(data){
-const currentMainContentContainerContentBlock=this.getWrapperDiv().select('.main-content').select('.container')
-.select('.content-block');
-const albumTitle = html().create('h3').addClass('content-block__title').text(data.title);
-const albumArtist = html().create('ul').addClass('artist');
-data.artist.forEach(artist=>{
-  const artistElement =html()
-  .create('li')
-  .addChild(html()
-  .create('a')
-  .addAttribute('href',`/artists/${artist.id}`)
-  .text(artist.name)
-  .click((event)=>{
-    event.preventDefault()
-const endpoint=event.target.getAttribute('href')
-Api().getRequest(`http://localhost:8080/api${endpoint}`, (data)=>{
-  this.renderPageSingle(data, endpoint)
-})
-  }))
-albumArtist.addChild(artistElement);
-});
-//add code here albumSong
-}
+  renderPageAlbum(data) {
+    const currentMainContentContainerContentBlock = this.getWrapperDiv()
+      .select(".main-content")
+      .select(".container")
+      .select(".content-block");
+    const albumTitle = html()
+      .create("h3")
+      .addClass("content-block__title")
+      .text(data.title);
+    const albumArtist = html()
+      .create("ul")
+      .addClass("artist");
+    const songAdd = html()
+      .create("section")
+      .addClass("add-song");
+    const songAddTitle = html()
+      .create("input")
+      .addAttribute("type", "text")
+      .addClass("add-song__input");
+    const songAddButton = html()
+      .create("button")
+      .addClass("add-song__button")
+      .text("submit new campus")
+      .click(event => {
+        const newTitle = songAddTitle.value;
+
+        Api.postRequest("http://localhost:8080/add-song", {
+          songTitle: newTitle
+        });
+      });
+    data.artist.forEach(artist => {
+      const artistElement = html()
+        .create("li")
+        .addChild(
+          html()
+            .create("a")
+            .addAttribute("href", `/artists/${artist.id}`)
+            .text(artist.name)
+            .click(event => {
+              event.preventDefault();
+              const endpoint = event.target.getAttribute("href");
+              Api().getRequest(`http://localhost:8080/api${endpoint}`, data => {
+                this.renderPageSingle(data, endpoint);
+              });
+            })
+        );
+      albumArtist.addChild(artistElement);
+    });
+    const albumSong = html()
+      .create("h4")
+      .addChild(
+        html()
+          .create("a")
+          .addAttribute("href", `/songs/${data.song.id}`)
+          .text(data.song.songTitle)
+          .click(event => {
+            event.preventDefault();
+
+            const endpoint = event.target.getAttribute("href");
+            Api.getRequest(`http://localhost:8080/api${endpoint}`, data => {
+              this.renderPageSingle(data, endpoint);
+            });
+          })
+      );
+    songAdd.addChild(songAddTitle).addChild(songAddButton);
+    currentMainContentContainerContentBlock.replace(albumTitle);
+    currentMainContentContainerContentBlock.addChild(albumArtist);
+    currentMainContentContainerContentBlock.addChild(albumSong);
+    currentMainContentContainerContentBlock.addChild(songAdd);
+  }
   renderPageAlbums() {
     const currentMainContentContainer = this.getWrapperDiv()
       .select(".main-content")
       .select(".container");
     currentMainContentContainer.replace(this.renderContentBlock("albums"));
+  }
+  renderPageSong() {
+    const currentMainContentContainerContentBlock = this.getWrapperDiv()
+      .select(".main-content")
+      .select(".container")
+      .select(".content-block");
+    const songTitle = html()
+      .create("h3")
+      .addClass("content-block_title")
+      .text(data.songTitle);
   }
   renderPageSongs() {
     const currentMainContentContainer = this.getWrapperDiv()

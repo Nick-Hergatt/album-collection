@@ -1,5 +1,5 @@
-import Components from './utils/components/Compenents'
+import Components from "./utils/components/Components";
 
-export default function main(){
-    Components().renderPageHome();
+export default function main() {
+  Components().renderPageHome();
 }

@@ -270,7 +270,7 @@ function () {
 
   return Api;
 }();
-},{}],"js/utils/components/Compenents.js":[function(require,module,exports) {
+},{}],"js/utils/components/Components.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -347,6 +347,8 @@ function () {
   }, {
     key: "renderContentBlock",
     value: function renderContentBlock(requestedData) {
+      var _this2 = this;
+
       var contentBlock = (0, _html.default)().create("section").addClass("content-block");
       var contentBlockTitle = (0, _html.default)().create("h3").addClass("content-block__title").text(requestedData);
       var contentBlockList = (0, _html.default)().create("ul").addClass("content-block__list");
@@ -362,7 +364,13 @@ function () {
             elementName = item.songTitle;
           }
 
-          var contentBlockListItem = (0, _html.default)().create("li").addClass("content-block__list-item").addChild((0, _html.default)().create("a").addAttribute("href", "/${requestedData}/${item.id}").text(elementName));
+          var contentBlockListItem = (0, _html.default)().create("li").addClass("content-block__list-item").addChild((0, _html.default)().create("a").addAttribute("href", "/${requestedData}/${item.id}").text(elementName).click(function (event) {
+            event.preventDefault();
+            var endpoint = event.target.getAttribute("href");
+            (0, _Api.default)().getRequest("http://localhost:8080/api".concat(endpoint), function (data) {
+              _this2.renderPageSingle(data, endpoint);
+            });
+          }));
           contentBlockList.addChild(contentBlockListItem);
         });
       });
@@ -381,16 +389,70 @@ function () {
       return mainContent;
     }
   }, {
+    key: "renderPageArtist",
+    value: function renderPageArtist(data) {
+      var currentMainContentContainerContentBlock = this.getWrapperDiv().select(".main-content").select(".container").select(".content-block");
+      var artistName = (0, _html.default)().create("h3").addClass("content-block__title").text(data.name);
+      currentMainContentContainerContentBlock.replace(artistName);
+    }
+  }, {
     key: "renderPageArtists",
     value: function renderPageArtists() {
       var currentMainContentContainer = this.getWrapperDiv().select(".main-content").select(".container");
       currentMainContentContainer.replace(this.renderContentBlock("artists"));
     }
   }, {
+    key: "renderPageAlbum",
+    value: function renderPageAlbum(data) {
+      var _this3 = this;
+
+      var currentMainContentContainerContentBlock = this.getWrapperDiv().select(".main-content").select(".container").select(".content-block");
+      var albumTitle = (0, _html.default)().create("h3").addClass("content-block__title").text(data.title);
+      var albumArtist = (0, _html.default)().create("ul").addClass("artist");
+      var songAdd = (0, _html.default)().create("section").addClass("add-song");
+      var songAddTitle = (0, _html.default)().create("input").addAttribute("type", "text").addClass("add-song__input");
+      var songAddButton = (0, _html.default)().create("button").addClass("add-song__button").text("submit new campus").click(function (event) {
+        var newTitle = songAddTitle.value;
+
+        _Api.default.postRequest("http://localhost:8080/add-song", {
+          songTitle: newTitle
+        });
+      });
+      data.artist.forEach(function (artist) {
+        var artistElement = (0, _html.default)().create("li").addChild((0, _html.default)().create("a").addAttribute("href", "/artists/".concat(artist.id)).text(artist.name).click(function (event) {
+          event.preventDefault();
+          var endpoint = event.target.getAttribute("href");
+          (0, _Api.default)().getRequest("http://localhost:8080/api".concat(endpoint), function (data) {
+            _this3.renderPageSingle(data, endpoint);
+          });
+        }));
+        albumArtist.addChild(artistElement);
+      });
+      var albumSong = (0, _html.default)().create("h4").addChild((0, _html.default)().create("a").addAttribute("href", "/songs/".concat(data.song.id)).text(data.song.songTitle).click(function (event) {
+        event.preventDefault();
+        var endpoint = event.target.getAttribute("href");
+
+        _Api.default.getRequest("http://localhost:8080/api".concat(endpoint), function (data) {
+          _this3.renderPageSingle(data, endpoint);
+        });
+      }));
+      songAdd.addChild(songAddTitle).addChild(songAddButton);
+      currentMainContentContainerContentBlock.replace(albumTitle);
+      currentMainContentContainerContentBlock.addChild(albumArtist);
+      currentMainContentContainerContentBlock.addChild(albumSong);
+      currentMainContentContainerContentBlock.addChild(songAdd);
+    }
+  }, {
     key: "renderPageAlbums",
     value: function renderPageAlbums() {
       var currentMainContentContainer = this.getWrapperDiv().select(".main-content").select(".container");
       currentMainContentContainer.replace(this.renderContentBlock("albums"));
+    }
+  }, {
+    key: "renderPageSong",
+    value: function renderPageSong() {
+      var currentMainContentContainerContentBlock = this.getWrapperDiv().select(".main-content").select(".container").select(".content-block");
+      var songTitle = (0, _html.default)().create("h3").addClass("content-block_title").text(data.songTitle);
     }
   }, {
     key: "renderPageSongs",
@@ -423,14 +485,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = main;
 
-var _Compenents = _interopRequireDefault(require("./utils/components/Compenents"));
+var _Components = _interopRequireDefault(require("./utils/components/Components"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function main() {
-  (0, _Compenents.default)().renderPageHome();
+  (0, _Components.default)().renderPageHome();
 }
-},{"./utils/components/Compenents":"js/utils/components/Compenents.js"}],"js/index.js":[function(require,module,exports) {
+},{"./utils/components/Components":"js/utils/components/Components.js"}],"js/index.js":[function(require,module,exports) {
 "use strict";
 
 var _main = _interopRequireDefault(require("./main"));
@@ -466,11 +528,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-<<<<<<< HEAD
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55694" + '/');
-=======
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58620" + '/');
->>>>>>> 4bbcc4967f885b0bd467b594a0f7f98a294a78f7
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58827" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

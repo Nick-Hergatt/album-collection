@@ -405,17 +405,17 @@ function () {
 
       var currentMainContentContainerContentBlock = this.renderWrapperDiv().select(".main-content").select(".container").select(".content-block");
       console.log(data);
-      var artistEntry = (0, _html.default)().create('div').addClass('artistEntry');
+      var artistEntry = (0, _html.default)().create("div").addClass("artistEntry");
       var artistName = (0, _html.default)().create("h3").addClass("content-block__title").text(data.name);
-      var artistPicture = (0, _html.default)().create('img').addClass('artistsEntry__image').addAttribute('src', data.artistImageUrl);
-      var artistAge = (0, _html.default)().create('h4').text(data.artistAge);
-      var recordLabel = (0, _html.default)().create('h4').text(data.recordLabel);
-      var hometown = (0, _html.default)().create('h4').text(data.hometown);
-      var artistAlbums = (0, _html.default)().create('ul');
+      var artistPicture = (0, _html.default)().create("img").addClass("artistsEntry__image").addAttribute("src", data.artistImageUrl);
+      var artistAge = (0, _html.default)().create("h4").text(data.artistAge);
+      var recordLabel = (0, _html.default)().create("h4").text(data.recordLabel);
+      var hometown = (0, _html.default)().create("h4").text(data.hometown);
+      var artistAlbums = (0, _html.default)().create("ul");
       data.albums.forEach(function (album) {
-        var albumElement = (0, _html.default)().create('li').addChild((0, _html.default)().create('a').addAttribute('href', "/albums/".concat(album.id)).text(album.albumTitle).click(function (event) {
+        var albumElement = (0, _html.default)().create("li").addChild((0, _html.default)().create("a").addAttribute("href", "/albums/".concat(album.id)).text(album.albumTitle).click(function (event) {
           event.preventDefault();
-          var endpoint = event.target.getAttribute('href');
+          var endpoint = event.target.getAttribute("href");
           (0, _Api.default)().getRequest("http://localhost:8080/api".concat(endpoint), function (data) {
             _this3.renderPageSingle(data, endpoint);
           });
@@ -443,40 +443,42 @@ function () {
       var _this4 = this;
 
       var currentMainContentContainerContentBlock = this.renderWrapperDiv().select(".main-content").select(".container").select(".content-block");
-      var albumTitle = (0, _html.default)().create("h3").addClass("content-block__title").text(data.title);
+      var albumEntry = (0, _html.default)().create("div").addClass("albumEntry");
+      var albumTitle = (0, _html.default)().create("h3").addClass("content-block__title").text(data.albumTitle);
       var albumArtist = (0, _html.default)().create("ul").addClass("artist");
-      var songAdd = (0, _html.default)().create("section").addClass("add-song");
-      var songAddTitle = (0, _html.default)().create("input").addAttribute("type", "text").addClass("add-song__input");
-      var songAddButton = (0, _html.default)().create("button").addClass("add-song__button").text("submit new campus").click(function (event) {
-        var newTitle = songAddTitle.value;
-
-        _Api.default.postRequest("http://localhost:8080/add-song", {
-          songTitle: newTitle
-        });
-      });
-      data.artist.forEach(function (artist) {
-        var artistElement = (0, _html.default)().create("li").addChild((0, _html.default)().create("a").addAttribute("href", "/artists/".concat(artist.id)).text(artist.name).click(function (event) {
+      var albumPicture = (0, _html.default)().create("img").addClass("artistsEntry__image").addAttribute("src", data.albumImageUrl);
+      var recordLabel = (0, _html.default)().create("h4").text(data.recordLabel);
+      var albumSongs = (0, _html.default)().create("ul");
+      data.songs.forEach(function (song) {
+        var songElement = (0, _html.default)().create("li").addChild((0, _html.default)().create("a").addAttribute("href", "/songs/".concat(song.id)).text(song.songTitle).click(function (event) {
           event.preventDefault();
           var endpoint = event.target.getAttribute("href");
           (0, _Api.default)().getRequest("http://localhost:8080/api".concat(endpoint), function (data) {
             _this4.renderPageSingle(data, endpoint);
           });
         }));
-        albumArtist.addChild(artistElement);
+        albumSongs.addChild(songElement);
       });
-      var albumSong = (0, _html.default)().create("h4").addChild((0, _html.default)().create("a").addAttribute("href", "/songs/".concat(data.song.id)).text(data.song.songTitle).click(function (event) {
-        event.preventDefault();
-        var endpoint = event.target.getAttribute("href");
-
-        _Api.default.getRequest("http://localhost:8080/api".concat(endpoint), function (data) {
-          _this4.renderPageSingle(data, endpoint);
-        });
-      }));
-      songAdd.addChild(songAddTitle).addChild(songAddButton);
-      currentMainContentContainerContentBlock.replace(albumTitle);
-      currentMainContentContainerContentBlock.addChild(albumArtist);
-      currentMainContentContainerContentBlock.addChild(albumSong);
-      currentMainContentContainerContentBlock.addChild(songAdd);
+      albumEntry.addChild(albumTitle);
+      albumEntry.addChild(albumArtist);
+      albumEntry.addChild(albumPicture);
+      albumEntry.addChild(recordLabel);
+      albumEntry.addChild(albumSongs);
+      currentMainContentContainerContentBlock.replace(albumEntry); // const albumSong = html()
+      //   .create("h4")
+      //   .addChild(
+      //     html()
+      //       .create("a")
+      //       .addAttribute("href", `/songs/${data.song.id}`)
+      //       .text(data.song.songTitle)
+      //       .click(event => {
+      //         event.preventDefault();
+      //         const endpoint = event.target.getAttribute("href");
+      //         Api.getRequest(`http://localhost:8080/api${endpoint}`, data => {
+      //           this.renderPageSingle(data, endpoint);
+      //         });
+      //       })
+      //   );
     }
   }, {
     key: "renderPageAlbums",
@@ -486,9 +488,16 @@ function () {
     }
   }, {
     key: "renderPageSong",
-    value: function renderPageSong() {
+    value: function renderPageSong(data) {
       var currentMainContentContainerContentBlock = this.renderWrapperDiv().select(".main-content").select(".container").select(".content-block");
+      var songEntry = (0, _html.default)().create("div").addClass("songEntry");
       var songTitle = (0, _html.default)().create("h3").addClass("content-block_title").text(data.songTitle);
+      var songDuration = (0, _html.default)().create("h3").text(data.duration);
+      var linkUrl = (0, _html.default)().create("a").addAttribute("href", data.linkUrl);
+      songEntry.addChild(songTitle);
+      songEntry.addChild(songDuration);
+      songEntry.addChild(linkUrl);
+      currentMainContentContainerContentBlock.replace(songEntry);
     }
   }, {
     key: "renderPageSongs",
@@ -499,17 +508,17 @@ function () {
   }, {
     key: "renderPageSingle",
     value: function renderPageSingle(data, endpoint) {
-      var typeOfObject = endpoint.split('/')[1];
+      var typeOfObject = endpoint.split("/")[1];
 
-      if (typeOfObject === 'artists') {
+      if (typeOfObject === "artists") {
         this.renderPageArtist(data);
       }
 
-      if (typeOfObject === 'albums') {
+      if (typeOfObject === "albums") {
         this.renderPageAlbum(data);
       }
 
-      if (typeOfObject === 'songs') {
+      if (typeOfObject === "songs") {
         this.renderPageSong(data);
       }
     }
@@ -581,9 +590,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49832" + '/');
-
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51211" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

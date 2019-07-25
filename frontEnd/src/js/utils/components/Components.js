@@ -128,56 +128,57 @@ class Components {
       .select(".main-content")
       .select(".container")
       .select(".content-block");
-      console.log(data);
-      const artistEntry = html().create('div').addClass('artistEntry');
-      const artistName = html()
-        .create("h3")
-        .addClass("content-block__title")
-        .text(data.name);
-      const artistPicture = html()
-        .create('img')
-        .addClass('artistsEntry__image')
-        .addAttribute('src', data.artistImageUrl)
-      const artistAge = html()
-        .create('h4')
-        .text(data.artistAge);
-      const recordLabel = html()
-        .create('h4')
-        .text(data.recordLabel);
-      const hometown = html()
-        .create('h4')
-        .text(data.hometown);
-      const artistAlbums = html()
-        .create('ul')
-        data.albums.forEach(album => {
-          const albumElement = html()
-          .create('li')
-          .addChild(
-            html()
-            .create('a')
-            .addAttribute('href', `/albums/${album.id}`)
+    console.log(data);
+    const artistEntry = html()
+      .create("div")
+      .addClass("artistEntry");
+    const artistName = html()
+      .create("h3")
+      .addClass("content-block__title")
+      .text(data.name);
+    const artistPicture = html()
+      .create("img")
+      .addClass("artistsEntry__image")
+      .addAttribute("src", data.artistImageUrl);
+    const artistAge = html()
+      .create("h4")
+      .text(data.artistAge);
+    const recordLabel = html()
+      .create("h4")
+      .text(data.recordLabel);
+    const hometown = html()
+      .create("h4")
+      .text(data.hometown);
+    const artistAlbums = html().create("ul");
+    data.albums.forEach(album => {
+      const albumElement = html()
+        .create("li")
+        .addChild(
+          html()
+            .create("a")
+            .addAttribute("href", `/albums/${album.id}`)
             .text(album.albumTitle)
-            .click((event) => {
-              event.preventDefault()
+            .click(event => {
+              event.preventDefault();
 
-              const endpoint = event.target.getAttribute('href')
-              Api().getRequest(`http://localhost:8080/api${endpoint}`, (data) =>{
-                this.renderPageSingle(data, endpoint)
-              })
+              const endpoint = event.target.getAttribute("href");
+              Api().getRequest(`http://localhost:8080/api${endpoint}`, data => {
+                this.renderPageSingle(data, endpoint);
+              });
             })
-          );
-          artistAlbums.addChild(albumElement);
-        });
-      artistEntry.addChild(artistName)
-      artistEntry.addChild(artistPicture)
-      artistEntry.addChild(artistAge)
-      artistEntry.addChild(recordLabel)
-      artistEntry.addChild(hometown)
-      artistEntry.addChild(artistAlbums)
-      console.log(artistEntry);
-      currentMainContentContainerContentBlock.replace(artistEntry);
-    };
-  
+        );
+      artistAlbums.addChild(albumElement);
+    });
+    artistEntry.addChild(artistName);
+    artistEntry.addChild(artistPicture);
+    artistEntry.addChild(artistAge);
+    artistEntry.addChild(recordLabel);
+    artistEntry.addChild(hometown);
+    artistEntry.addChild(artistAlbums);
+    console.log(artistEntry);
+    currentMainContentContainerContentBlock.replace(artistEntry);
+  }
+
   renderPageArtists() {
     const currentMainContentContainer = this.renderWrapperDiv()
       .select(".main-content")
@@ -189,70 +190,65 @@ class Components {
       .select(".main-content")
       .select(".container")
       .select(".content-block");
+    const albumEntry = html()
+      .create("div")
+      .addClass("albumEntry");
     const albumTitle = html()
       .create("h3")
       .addClass("content-block__title")
-      .text(data.title);
+      .text(data.albumTitle);
     const albumArtist = html()
       .create("ul")
       .addClass("artist");
-    const songAdd = html()
-      .create("section")
-      .addClass("add-song");
-    const songAddTitle = html()
-      .create("input")
-      .addAttribute("type", "text")
-      .addClass("add-song__input");
-    const songAddButton = html()
-      .create("button")
-      .addClass("add-song__button")
-      .text("submit new campus")
-      .click(event => {
-        const newTitle = songAddTitle.value;
-
-        Api.postRequest("http://localhost:8080/add-song", {
-          songTitle: newTitle
-        });
-      });
-    data.artist.forEach(artist => {
-      const artistElement = html()
+    const albumPicture = html()
+      .create("img")
+      .addClass("artistsEntry__image")
+      .addAttribute("src", data.albumImageUrl);
+    const recordLabel = html()
+      .create("h4")
+      .text(data.recordLabel);
+    const albumSongs = html().create("ul");
+    data.songs.forEach(song => {
+      const songElement = html()
         .create("li")
         .addChild(
           html()
             .create("a")
-            .addAttribute("href", `/artists/${artist.id}`)
-            .text(artist.name)
+            .addAttribute("href", `/songs/${song.id}`)
+            .text(song.songTitle)
             .click(event => {
               event.preventDefault();
+
               const endpoint = event.target.getAttribute("href");
               Api().getRequest(`http://localhost:8080/api${endpoint}`, data => {
                 this.renderPageSingle(data, endpoint);
               });
             })
         );
-      albumArtist.addChild(artistElement);
+      albumSongs.addChild(songElement);
     });
-    const albumSong = html()
-      .create("h4")
-      .addChild(
-        html()
-          .create("a")
-          .addAttribute("href", `/songs/${data.song.id}`)
-          .text(data.song.songTitle)
-          .click(event => {
-            event.preventDefault();
+    albumEntry.addChild(albumTitle);
+    albumEntry.addChild(albumArtist);
+    albumEntry.addChild(albumPicture);
+    albumEntry.addChild(recordLabel);
+    albumEntry.addChild(albumSongs);
+    currentMainContentContainerContentBlock.replace(albumEntry);
+    // const albumSong = html()
+    //   .create("h4")
+    //   .addChild(
+    //     html()
+    //       .create("a")
+    //       .addAttribute("href", `/songs/${data.song.id}`)
+    //       .text(data.song.songTitle)
+    //       .click(event => {
+    //         event.preventDefault();
 
-            const endpoint = event.target.getAttribute("href");
-            Api.getRequest(`http://localhost:8080/api${endpoint}`, data => {
-              this.renderPageSingle(data, endpoint);
-            });
-          })
-      );
-    songAdd.addChild(songAddTitle).addChild(songAddButton);
-    currentMainContentContainerContentBlock.replace(albumTitle);
-    currentMainContentContainerContentBlock.addChild(albumArtist);
-    currentMainContentContainerContentBlock.addChild(albumSong);
-    currentMainContentContainerContentBlock.addChild(songAdd);
+    //         const endpoint = event.target.getAttribute("href");
+    //         Api.getRequest(`http://localhost:8080/api${endpoint}`, data => {
+    //           this.renderPageSingle(data, endpoint);
+    //         });
+    //       })
+    //   );
   }
   renderPageAlbums() {
     const currentMainContentContainer = this.renderWrapperDiv()
@@ -260,15 +256,28 @@ class Components {
       .select(".container");
     currentMainContentContainer.replace(this.renderContentBlock("albums"));
   }
-  renderPageSong() {
+  renderPageSong(data) {
     const currentMainContentContainerContentBlock = this.renderWrapperDiv()
       .select(".main-content")
       .select(".container")
       .select(".content-block");
+    const songEntry = html()
+      .create("div")
+      .addClass("songEntry");
     const songTitle = html()
       .create("h3")
       .addClass("content-block_title")
       .text(data.songTitle);
+    const songDuration = html()
+      .create("h3")
+      .text(data.duration);
+    const linkUrl = html()
+      .create("a")
+      .addAttribute("href", data.linkUrl);
+    songEntry.addChild(songTitle);
+    songEntry.addChild(songDuration);
+    songEntry.addChild(linkUrl);
+    currentMainContentContainerContentBlock.replace(songEntry);
   }
   renderPageSongs() {
     const currentMainContentContainer = this.renderWrapperDiv()
@@ -278,14 +287,14 @@ class Components {
   }
 
   renderPageSingle(data, endpoint) {
-    const typeOfObject = endpoint.split('/')[1]
-    if (typeOfObject === 'artists') {
+    const typeOfObject = endpoint.split("/")[1];
+    if (typeOfObject === "artists") {
       this.renderPageArtist(data);
     }
-    if (typeOfObject === 'albums') {
+    if (typeOfObject === "albums") {
       this.renderPageAlbum(data);
     }
-    if (typeOfObject === 'songs') {
+    if (typeOfObject === "songs") {
       this.renderPageSong(data);
     }
   }
@@ -300,5 +309,4 @@ class Components {
     wrapperDiv.addChild(mainFooter);
     app.replace(wrapperDiv);
   }
-
 }

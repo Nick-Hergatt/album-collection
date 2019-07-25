@@ -401,6 +401,8 @@ function () {
   }, {
     key: "renderPageArtist",
     value: function renderPageArtist(data) {
+      var _this3 = this;
+
       var currentMainContentContainerContentBlock = this.renderWrapperDiv().select(".main-content").select(".container").select(".content-block");
       console.log(data);
       var artistEntry = (0, _html.default)().create('div').addClass('artistEntry');
@@ -409,11 +411,23 @@ function () {
       var artistAge = (0, _html.default)().create('h4').text(data.artistAge);
       var recordLabel = (0, _html.default)().create('h4').text(data.recordLabel);
       var hometown = (0, _html.default)().create('h4').text(data.hometown);
+      var artistAlbums = (0, _html.default)().create('ul');
+      data.albums.forEach(function (album) {
+        var albumElement = (0, _html.default)().create('li').addChild((0, _html.default)().create('a').addAttribute('href', "/albums/".concat(album.id)).text(album.albumTitle).click(function (event) {
+          event.preventDefault();
+          var endpoint = event.target.getAttribute('href');
+          (0, _Api.default)().getRequest("http://localhost:8080/api".concat(endpoint), function (data) {
+            _this3.renderPageSingle(data, endpoint);
+          });
+        }));
+        artistAlbums.addChild(albumElement);
+      });
       artistEntry.addChild(artistName);
       artistEntry.addChild(artistPicture);
       artistEntry.addChild(artistAge);
       artistEntry.addChild(recordLabel);
       artistEntry.addChild(hometown);
+      artistEntry.addChild(artistAlbums);
       console.log(artistEntry);
       currentMainContentContainerContentBlock.replace(artistEntry);
     }
@@ -426,7 +440,7 @@ function () {
   }, {
     key: "renderPageAlbum",
     value: function renderPageAlbum(data) {
-      var _this3 = this;
+      var _this4 = this;
 
       var currentMainContentContainerContentBlock = this.renderWrapperDiv().select(".main-content").select(".container").select(".content-block");
       var albumTitle = (0, _html.default)().create("h3").addClass("content-block__title").text(data.title);
@@ -445,7 +459,7 @@ function () {
           event.preventDefault();
           var endpoint = event.target.getAttribute("href");
           (0, _Api.default)().getRequest("http://localhost:8080/api".concat(endpoint), function (data) {
-            _this3.renderPageSingle(data, endpoint);
+            _this4.renderPageSingle(data, endpoint);
           });
         }));
         albumArtist.addChild(artistElement);
@@ -455,7 +469,7 @@ function () {
         var endpoint = event.target.getAttribute("href");
 
         _Api.default.getRequest("http://localhost:8080/api".concat(endpoint), function (data) {
-          _this3.renderPageSingle(data, endpoint);
+          _this4.renderPageSingle(data, endpoint);
         });
       }));
       songAdd.addChild(songAddTitle).addChild(songAddButton);
@@ -567,7 +581,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61010" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63857" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

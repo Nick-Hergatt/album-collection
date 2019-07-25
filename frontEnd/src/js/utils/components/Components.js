@@ -147,11 +147,33 @@ class Components {
       const hometown = html()
         .create('h4')
         .text(data.hometown);
+      const artistAlbums = html()
+        .create('ul')
+        data.albums.forEach(album => {
+          const albumElement = html()
+          .create('li')
+          .addChild(
+            html()
+            .create('a')
+            .addAttribute('href', `/albums/${album.id}`)
+            .text(album.albumTitle)
+            .click((event) => {
+              event.preventDefault()
+
+              const endpoint = event.target.getAttribute('href')
+              Api().getRequest(`http://localhost:8080/api${endpoint}`, (data) =>{
+                this.renderPageSingle(data, endpoint)
+              })
+            })
+          );
+          artistAlbums.addChild(albumElement);
+        });
       artistEntry.addChild(artistName)
       artistEntry.addChild(artistPicture)
       artistEntry.addChild(artistAge)
       artistEntry.addChild(recordLabel)
       artistEntry.addChild(hometown)
+      artistEntry.addChild(artistAlbums)
       console.log(artistEntry);
       currentMainContentContainerContentBlock.replace(artistEntry);
     };

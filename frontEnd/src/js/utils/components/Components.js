@@ -1,5 +1,6 @@
 import html from "../html/html";
 import Api from "../api/Api";
+import { directive } from "@babel/types";
 
 export default () => new Components();
 
@@ -179,10 +180,11 @@ class Components {
     currentMainContentContainerContentBlock.replace(artistEntry);
   }
 
-  renderPageArtists() {
+  renderPageArtists(data) {
     const currentMainContentContainer = this.renderWrapperDiv()
       .select(".main-content")
       .select(".container");
+
     currentMainContentContainer.replace(this.renderContentBlock("artists"));
   }
   renderPageAlbum(data) {
@@ -266,14 +268,15 @@ class Components {
       .addClass("songEntry");
     const songTitle = html()
       .create("h3")
-      .addClass("content-block_title")
+      .addClass("content-block__title")
       .text(data.songTitle);
     const songDuration = html()
       .create("h3")
       .text(data.duration);
     const linkUrl = html()
       .create("a")
-      .addAttribute("href", data.linkUrl);
+      .addAttribute("href", data.linkUrl)
+      .text("Listen to song");
     songEntry.addChild(songTitle);
     songEntry.addChild(songDuration);
     songEntry.addChild(linkUrl);

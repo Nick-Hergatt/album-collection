@@ -22,20 +22,20 @@ public class Initializer implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		
-	Artist eminem= new Artist("Eminem", "imageUrl", "27", "Capitol", "Detroit");
+	Artist eminem= new Artist("Eminem", "https://i.imgur.com/C1pRKYy.jpg", "46", "Capitol", "Detroit");
 	artistRepo.save(eminem);
-	Artist mj = new Artist("Micheal Jackson", "imageUrl", "dead", "Daddy Jackson", "Gary");
+	Artist mj = new Artist("Micheal Jackson", "https://i.imgur.com/3m8Pisl.jpg", "dead", "Daddy Jackson", "Gary");
 	artistRepo.save(mj);
-	Artist prince = new Artist("Prince", "imageUrl", "dead", "Purple", "Paisley Park");
+	Artist prince = new Artist("Prince", "https://i.imgur.com/7Kr0mrK.jpg", "dead", "Purple", "Paisley Park");
 	artistRepo.save(prince);
 	
-	Album eightMile = new Album("8 Mile", "imageUrl", "Capitol", eminem);
+	Album eightMile = new Album("8 Mile", "https://i.imgur.com/bW0Xnc6.jpg", "Capitol", eminem);
 	albumRepo.save(eightMile);
-	Album eminemShow = new Album("Eminem Show", "imageUrl", "Capitol", eminem);
+	Album eminemShow = new Album("Eminem Show", "https://i.imgur.com/RmBDHnm.jpg", "Capitol", eminem);
 	albumRepo.save(eminemShow);
-	Album thriller = new Album("Thriller", "imageUrl", "Daddy Jackson", mj);
+	Album thriller = new Album("Thriller", "https://i.imgur.com/p3ZzPd7.jpg", "Daddy Jackson", mj);
 	albumRepo.save(thriller);
-	Album purpleRain = new Album("Purple Rain", "imageUrl", "Capitol", prince);
+	Album purpleRain = new Album("Purple Rain", "https://i.imgur.com/lyJ4sfr.jpg", "Capitol", prince);
 	albumRepo.save(purpleRain);
 	
 	Song loseYourself = new Song("Lose Yourself", "4:35", "linkUrl", eightMile);

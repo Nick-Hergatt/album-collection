@@ -57,7 +57,7 @@ class Components {
     const mainFooterCopy = html()
       .create("small")
       .addClass("main-footer__copy")
-      .addHtml("&copy; 2019 WildGroove");
+      .addHtml("&copy; 2019 GrooveyFolk");
     mainFooter.addChild(mainFooterCopy);
     return mainFooter;
   }
@@ -142,14 +142,18 @@ class Components {
       .addClass("artistsEntry__image")
       .addAttribute("src", data.artistImageUrl);
     const artistAge = html()
-      .create("h4")
-      .text(data.artistAge);
+      .create("h3")
+      .text(`AGE: ${data.artistAge}`);
     const recordLabel = html()
-      .create("h4")
-      .text(data.recordLabel);
+      .create("h3")
+      .text(`RECORD LABEL: ${data.recordLabel}`);
     const hometown = html()
-      .create("h4")
-      .text(data.hometown);
+      .create("h3")
+      .text(`HOMETOWN: ${data.hometown}`);
+    const albumListTitle = html()
+      .create("h1")
+      .addClass("titles")
+      .text("ALBUMS");
     const artistAlbums = html().create("ul");
     data.albums.forEach(album => {
       const albumElement = html()
@@ -175,6 +179,7 @@ class Components {
     artistEntry.addChild(artistAge);
     artistEntry.addChild(recordLabel);
     artistEntry.addChild(hometown);
+    artistEntry.addChild(albumListTitle);
     artistEntry.addChild(artistAlbums);
     console.log(artistEntry);
     currentMainContentContainerContentBlock.replace(artistEntry);
@@ -207,8 +212,12 @@ class Components {
       .addClass("artistsEntry__image")
       .addAttribute("src", data.albumImageUrl);
     const recordLabel = html()
-      .create("h4")
-      .text(data.recordLabel);
+      .create("h3")
+      .text(`RECORD LABEL: ${data.recordLabel}`);
+    const songListTitle = html()
+      .create("h1")
+      .addClass("titles")
+      .text("SONGS");
     const albumSongs = html().create("ul");
     data.songs.forEach(song => {
       const songElement = html()
@@ -233,6 +242,7 @@ class Components {
     albumEntry.addChild(albumArtist);
     albumEntry.addChild(albumPicture);
     albumEntry.addChild(recordLabel);
+    albumEntry.addChild(songListTitle);
     albumEntry.addChild(albumSongs);
     currentMainContentContainerContentBlock.replace(albumEntry);
     // const albumSong = html()
@@ -272,11 +282,11 @@ class Components {
       .text(data.songTitle);
     const songDuration = html()
       .create("h3")
-      .text(data.duration);
+      .text(`DURATION: ${data.duration}`);
     const linkUrl = html()
       .create("a")
       .addAttribute("href", data.linkUrl)
-      .text("Listen to song");
+      .text("PLAY SONG");
     songEntry.addChild(songTitle);
     songEntry.addChild(songDuration);
     songEntry.addChild(linkUrl);

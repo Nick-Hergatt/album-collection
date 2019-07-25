@@ -16160,7 +16160,7 @@ function () {
     key: "renderMainFooter",
     value: function renderMainFooter() {
       var mainFooter = (0, _html.default)().create("footer").addClass("main-footer");
-      var mainFooterCopy = (0, _html.default)().create("small").addClass("main-footer__copy").addHtml("&copy; 2019 WildGroove");
+      var mainFooterCopy = (0, _html.default)().create("small").addClass("main-footer__copy").addHtml("&copy; 2019 GrooveyFolk");
       mainFooter.addChild(mainFooterCopy);
       return mainFooter;
     }
@@ -16218,9 +16218,10 @@ function () {
       var artistEntry = (0, _html.default)().create("div").addClass("artistEntry");
       var artistName = (0, _html.default)().create("h3").addClass("content-block__title").text(data.name);
       var artistPicture = (0, _html.default)().create("img").addClass("artistsEntry__image").addAttribute("src", data.artistImageUrl);
-      var artistAge = (0, _html.default)().create("h4").text(data.artistAge);
-      var recordLabel = (0, _html.default)().create("h4").text(data.recordLabel);
-      var hometown = (0, _html.default)().create("h4").text(data.hometown);
+      var artistAge = (0, _html.default)().create("h3").text("AGE: ".concat(data.artistAge));
+      var recordLabel = (0, _html.default)().create("h3").text("RECORD LABEL: ".concat(data.recordLabel));
+      var hometown = (0, _html.default)().create("h3").text("HOMETOWN: ".concat(data.hometown));
+      var albumListTitle = (0, _html.default)().create("h1").addClass("titles").text("ALBUMS");
       var artistAlbums = (0, _html.default)().create("ul");
       data.albums.forEach(function (album) {
         var albumElement = (0, _html.default)().create("li").addChild((0, _html.default)().create("a").addAttribute("href", "/albums/".concat(album.id)).text(album.albumTitle).click(function (event) {
@@ -16237,6 +16238,7 @@ function () {
       artistEntry.addChild(artistAge);
       artistEntry.addChild(recordLabel);
       artistEntry.addChild(hometown);
+      artistEntry.addChild(albumListTitle);
       artistEntry.addChild(artistAlbums);
       console.log(artistEntry);
       currentMainContentContainerContentBlock.replace(artistEntry);
@@ -16257,7 +16259,8 @@ function () {
       var albumTitle = (0, _html.default)().create("h3").addClass("content-block__title").text(data.albumTitle);
       var albumArtist = (0, _html.default)().create("ul").addClass("artist");
       var albumPicture = (0, _html.default)().create("img").addClass("artistsEntry__image").addAttribute("src", data.albumImageUrl);
-      var recordLabel = (0, _html.default)().create("h4").text(data.recordLabel);
+      var recordLabel = (0, _html.default)().create("h3").text("RECORD LABEL: ".concat(data.recordLabel));
+      var songListTitle = (0, _html.default)().create("h1").addClass("titles").text("SONGS");
       var albumSongs = (0, _html.default)().create("ul");
       data.songs.forEach(function (song) {
         var songElement = (0, _html.default)().create("li").addChild((0, _html.default)().create("a").addAttribute("href", "/songs/".concat(song.id)).text(song.songTitle).click(function (event) {
@@ -16273,6 +16276,7 @@ function () {
       albumEntry.addChild(albumArtist);
       albumEntry.addChild(albumPicture);
       albumEntry.addChild(recordLabel);
+      albumEntry.addChild(songListTitle);
       albumEntry.addChild(albumSongs);
       currentMainContentContainerContentBlock.replace(albumEntry); // const albumSong = html()
       //   .create("h4")
@@ -16302,8 +16306,8 @@ function () {
       var currentMainContentContainerContentBlock = this.renderWrapperDiv().select(".main-content").select(".container").select(".content-block");
       var songEntry = (0, _html.default)().create("div").addClass("songEntry");
       var songTitle = (0, _html.default)().create("h3").addClass("content-block__title").text(data.songTitle);
-      var songDuration = (0, _html.default)().create("h3").text(data.duration);
-      var linkUrl = (0, _html.default)().create("a").addAttribute("href", data.linkUrl).text("Listen to song");
+      var songDuration = (0, _html.default)().create("h3").text("DURATION: ".concat(data.duration));
+      var linkUrl = (0, _html.default)().create("a").addAttribute("href", data.linkUrl).text("PLAY SONG");
       songEntry.addChild(songTitle);
       songEntry.addChild(songDuration);
       songEntry.addChild(linkUrl);
@@ -16400,7 +16404,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52229" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56267" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
